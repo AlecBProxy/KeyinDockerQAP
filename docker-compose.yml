@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    container_name: golfclub-db
+    environment:
+      POSTGRES_DB: golfclub
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Fenthick
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    image: golfclub-api
+    container_name: golfclub-app
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/golfclub
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Fenthick
+
+volumes:
+  pgdata:
