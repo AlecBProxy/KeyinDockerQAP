@@ -1,8 +1,11 @@
 package com.keyin.GolfTournament.tournament;
 
+import com.keyin.GolfTournament.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,5 +31,21 @@ public class TournamentController {
             @PathVariable Long memberId
     ) {
         return tournamentService.addMemberToTournament(tournamentId, memberId);
+    }
+
+    @GetMapping("/search/by-start-date")
+    public List<Tournament> searchByStartDate(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate) {
+        return tournamentService.searchByStartDate(startDate);
+    }
+
+    @GetMapping("/search/by-location")
+    public List<Tournament> searchByLocation(@RequestParam String location) {
+        return tournamentService.searchByLocation(location);
+    }
+
+    @GetMapping("/{tournamentId}/members")
+    public List<Member> getMembersInTournament(@PathVariable Long tournamentId) {
+        return tournamentService.getMembersInTournament(tournamentId);
     }
 }

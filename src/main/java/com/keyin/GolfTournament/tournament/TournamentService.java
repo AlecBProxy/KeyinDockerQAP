@@ -5,6 +5,7 @@ import com.keyin.GolfTournament.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,5 +35,17 @@ public class TournamentService {
         Member member = memberRepository.findById(memberId).orElseThrow();
         tournament.getParticipants().add(member);
         return tournamentRepository.save(tournament);
+    }
+
+    public List<Tournament> searchByStartDate(Date startDate) {
+        return tournamentRepository.findByStartDate(startDate);
+    }
+
+    public List<Tournament> searchByLocation(String location) {
+        return tournamentRepository.findByLocationContainingIgnoreCase(location);
+    }
+
+    public List<Member> getMembersInTournament(Long tournamentId) {
+        return tournamentRepository.findParticipantsByTournamentId(tournamentId);
     }
 }
